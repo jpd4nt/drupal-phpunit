@@ -20,7 +20,7 @@
             "NT\\Drupal\\Testing\\PHPUnit": "src"
         },
         "classmap": [
-            "src/NT/Drupal/Testing/PHPUnit/drupal_test_case.php",
+            "src/NT/Drupal/Testing/PHPUnit/drupal_test_case.php"
         ]
     }
 } 
