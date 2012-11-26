@@ -19,8 +19,8 @@
         "psr-0": {
             "NT\\Drupal\\Testing\\PHPUnit": "src"
         },
-        "files": [
-            "src/NT/Drupal/Testing/PHPUnit/drupal_test_case.php"
+        "classmap": [
+            "src/NT/Drupal/Testing/PHPUnit/drupal_test_case.php",
         ]
     }
 } 
