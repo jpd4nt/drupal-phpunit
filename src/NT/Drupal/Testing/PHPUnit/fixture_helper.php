@@ -25,25 +25,28 @@ class fixture_helper {
   
   public static function setup($fixture, $type = NULL) {
     if (!empty($fixture)) {
+      $include_path = realpath(
+        dirname(__FILE__) . '/../../../../../../../../includes/'
+      );
       $class = str_replace(' ', '_', strtolower($fixture));
-      if (file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php';
+      if (file_exists(realpath($include_path . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php')) {
+        require_once realpath($include_path . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php';
         $ob_str = 'NT\\Test\\Fixtures\\' . $type . '\\' . $class;
       }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php';
+      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+        require_once realpath($include_path . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php';
         $ob_str = 'NT\\Test\\Fixtures\\Venue\\' . $class;
       }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php';
+      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+        require_once realpath($include_path . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php';
         $ob_str = 'NT\\Test\\Fixtures\\Image\\' . $class;
       }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php';
+      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+        require_once realpath($include_path . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php';
         $ob_str = 'NT\\Test\\Fixtures\\Production\\' . $class;
       }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php';
+      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+        require_once realpath($include_path . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php';
         $ob_str = 'NT\\Test\\Fixtures\\NT_Twitter\\' . $class;
       }
       else {
