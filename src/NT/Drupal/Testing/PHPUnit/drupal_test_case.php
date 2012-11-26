@@ -2387,15 +2387,22 @@ class DrupalWebTestCase extends DrupalTestCase {
         if(!file_exists($files_dir)) {
             mkdir($files_dir);
         }
+
+        $include_path = realpath(
+          dirname(__FILE__) . '/../../../../../../../../includes/'
+        );
+
         if(!file_exists($site . '/settings.php')) {
-          $settings = file_get_contents(dirname(__FILE__) . '/settings.php');
+          $settings = file_get_contents(
+            $include_path . '/settings.php'
+          );
           $settings = sprintf($settings, $this->prefix);
           file_put_contents($site . '/settings.php', $settings);
           unset($settings);
         }
 
-        $sql_tmpl = fopen(dirname(__FILE__) . DIRECTORY_SEPARATOR . UPAL_USE_DB, "r");
-        $sql_tmpl_fix  = fopen(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->prefix .'.sql', 'w');
+        $sql_tmpl = fopen($include_path . DIRECTORY_SEPARATOR . UPAL_USE_DB, "r");
+        $sql_tmpl_fix  = fopen($include_path . DIRECTORY_SEPARATOR . $this->prefix .'.sql', 'w');
         while(($buffer = fgets($sql_tmpl)) !== FALSE) {
           $buffer = str_replace('${prefix}', $this->prefix, $buffer);
           fwrite($sql_tmpl_fix, $buffer);
@@ -2407,7 +2414,7 @@ class DrupalWebTestCase extends DrupalTestCase {
             UNISH_DRUSH,
             UPAL_WEB_URL, 
             UPAL_ROOT,
-            dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->prefix .'.sql'
+            $include_path . DIRECTORY_SEPARATOR . $this->prefix .'.sql'
         );
         $time = time();
         exec($cmd, $output, $return);
