@@ -12,7 +12,6 @@
     "require": {
         "php": 				">=5.3.3",
     	"phpunit/phpunit": 		"3.*@stable",
-        "drupal/drupal-extension":	"*",
         "behat/behat": 			">=2.*@stable",
 	"behat/mink": 			">=1.*@stable"
     },
@@ -20,15 +19,5 @@
         "psr-0": {
             "NT\\Drupal\\Testing\\PHPUnit": "src"
         }
-    },
-    "repositories": [
-	{
-	  "type": "vcs",
-	  "url": "git://git.drupal.org/project/drupalextension.git"
-	},
-	{
-	  "type": "pear",
-	  "url": "http://pear.drush.org"
-	}
-    ]
+    }
 } 
