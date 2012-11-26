@@ -1,5 +1,4 @@
 <?php
-namespace NT\Drupal\Testing\PHPUnit;
 /*
  * @file
  *   Test Framework for Drupal based on PHPUnit.
@@ -20,7 +19,7 @@ namespace NT\Drupal\Testing\PHPUnit;
  *     - Compare speed versus simpletest.
  *     - move upal_init() to a class thats called early in the suite.
  */
-
+namespace NT\Drupal\Testing\PHPUnit;
 /*
  * @todo: Perhaps move these annotations down to the instance classes and tests.
  *
