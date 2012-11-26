@@ -3,10 +3,9 @@
  * Description of fixture_helper
  *
  * @copyright The Royal National Theatre
- *  @author John-Paul Drawneek <jdrawneek@nationaltheatre.org.uk>
+ * @author John-Paul Drawneek <jdrawneek@nationaltheatre.org.uk>
  */
 namespace NT\Drupal\Testing\PHPUnit;
-use NT\Test;
 
 class fixture_helper {
   
@@ -25,42 +24,18 @@ class fixture_helper {
   
   public static function setup($fixture, $type = NULL) {
     if (!empty($fixture)) {
-      $include_path = realpath(
-        dirname(__FILE__) . '/../../../../../../../../includes/'
-      );
-      $class = str_replace(' ', '_', strtolower($fixture));
-      if (file_exists(realpath($include_path . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath($include_path . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php';
+      try {
+        $class = str_replace(' ', '', ucwords(strtolower($fixture)));
         $ob_str = 'NT\\Test\\Fixtures\\' . $type . '\\' . $class;
+        $helper = fixture_helper::getInstance();
+        $fixture_obj = new $ob_str;
+        $helper->add_object($fixture_obj);
+        return $fixture_obj->run();
       }
-      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath($include_path . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\Venue\\' . $class;
+      catch (Exception $e) {
+        print print_r($e, TRUE) . "\n\n";
+        return FALSE;
       }
-      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath($include_path . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\Image\\' . $class;
-      }
-      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath($include_path . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\Production\\' . $class;
-      }
-      elseif(file_exists(realpath($include_path . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath($include_path . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\NT_Twitter\\' . $class;
-      }
-      else {
-        throw new \Exception(
-          'Panic!: ' . print_r($fixture, TRUE) . ' - ' . print_r($class , TRUE)
-          . ' hello!'
-        );
-      }
-
-      $helper = fixture_helper::getInstance();
-      
-      $fixture_obj = new $ob_str;
-      $helper->add_object($fixture_obj);
-      return $fixture_obj->run();
     }
     else {
       return FALSE;
