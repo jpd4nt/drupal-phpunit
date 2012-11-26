@@ -2366,7 +2366,7 @@ class DrupalWebTestCase extends DrupalTestCase {
   public function setUp() {
     parent::setUp();
 
-    PHPUnit_Framework_Error_Warning::$enabled = FALSE;
+    \PHPUnit_Framework_Error_Warning::$enabled = FALSE;
 
     if (!defined('DRUPAL_ROOT')) {
       define('DRUPAL_ROOT', UPAL_ROOT);
