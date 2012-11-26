@@ -150,7 +150,7 @@ abstract class DrupalTestCase extends \PHPUnit_Framework_TestCase {
    */
   protected $redirect_count;
 
-  public function run(PHPUnit_Framework_TestResult $result = NULL) {
+  public function run(\PHPUnit_Framework_TestResult $result = NULL) {
     $this->setPreserveGlobalState(FALSE);
     return parent::run($result);
   }
@@ -555,7 +555,7 @@ abstract class DrupalTestCase extends \PHPUnit_Framework_TestCase {
    * @return
    *   The selected value or FALSE.
    */
-  protected function getSelectedItem(SimpleXMLElement $element) {
+  protected function getSelectedItem(\SimpleXMLElement $element) {
     foreach ($element->children() as $item) {
       if (isset($item['selected'])) {
         return $item['value'];
@@ -1385,7 +1385,7 @@ abstract class DrupalTestCase extends \PHPUnit_Framework_TestCase {
     if (!$this->elements) {
       // DOM can load HTML soup. But, HTML soup can throw warnings, suppress
       // them.
-      $htmlDom = new DOMDocument();
+      $htmlDom = new \DOMDocument();
       @$htmlDom->loadHTML($this->drupalGetContent());
       if ($htmlDom) {
         $this->pass(t('Valid HTML found on "@path"', array('@path' => $this->getUrl())), t('Browser'));
