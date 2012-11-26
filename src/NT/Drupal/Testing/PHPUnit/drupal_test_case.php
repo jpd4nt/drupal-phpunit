@@ -2482,7 +2482,10 @@ class DrupalWebTestCase extends DrupalTestCase {
       db_query(sprintf("DROP TABLE %s", $row->table_name));
     }
     print 'Drop took:' . (time() - $time) . "sec\n\n";
-    unlink(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->prefix .'.sql');
+    $include_path = realpath(
+      dirname(__FILE__) . '/../../../../../../../../includes/'
+    );
+    unlink($include_path . DIRECTORY_SEPARATOR . $this->prefix .'.sql');
     fixture_helper::clear();
   }
   
