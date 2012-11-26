@@ -47,7 +47,7 @@ class fixture_helper {
         $ob_str = 'NT\\Test\\Fixtures\\NT_Twitter\\' . $class;
       }
       else {
-        throw new Exception(
+        throw new \Exception(
           'Panic!: ' . print_r($fixture, TRUE) . ' - ' . print_r($class , TRUE)
           . ' hello!'
         );
