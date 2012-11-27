@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": 				">=5.3.3",
-    	"phpunit/phpunit": 		"3.*@stable",
+    	"phpunit/phpunit": 		">=3.7.1@stable",
         "behat/behat": 			">=2.4@stable",
 	"behat/mink": 			">=1.4@stable"
     },
