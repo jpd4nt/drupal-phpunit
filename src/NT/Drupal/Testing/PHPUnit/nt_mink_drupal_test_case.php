@@ -8,7 +8,7 @@ namespace NT\Drupal\Testing\PHPUnit;
 /**
  * Description of bbpa_mink_drupal_test_case
  */
-abstract class NtMinkDrupalTestCase extends Behat\Mink\PHPUnit\MinkDrupalTestCase {
+abstract class NtMinkDrupalTestCase extends MinkDrupalTestCase {
     
     protected $base_path = UPAL_WEB_URL;
     

@@ -1,6 +1,6 @@
 <?php
 
-namespace Behat\Mink\PHPUnit;
+namespace NT\Drupal\Testing\PHPUnit;
 
 use Behat\Mink\Mink,
     Behat\Mink\Session,
@@ -32,7 +32,7 @@ use Behat\SahiClient\Connection as SahiConnection,
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-abstract class MinkDrupalTestCase extends \DrupalWebTestCase
+abstract class MinkDrupalTestCase extends DrupalWebTestCase
 {
     /**
      * Mink instance.
