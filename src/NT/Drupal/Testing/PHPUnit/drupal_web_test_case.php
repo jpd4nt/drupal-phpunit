@@ -47,6 +47,14 @@ class DrupalWebTestCase extends DrupalTestCase {
           unset($settings);
         }
 
+        // Copy modules to test env. 
+        if (defined('COPY_MODULES') && COPY_MODULES) {
+          symlink(
+            DRUPAL_ROOT . '/sites/' . COPY_MODULES,
+            DRUPAL_ROOT . '/sites/upal/modules'
+          );
+        }
+
         $sql_tmpl = fopen($include_path . DIRECTORY_SEPARATOR . UPAL_USE_DB, "r");
         $sql_tmpl_fix  = fopen($include_path . DIRECTORY_SEPARATOR . $this->prefix .'.sql', 'w');
         while(($buffer = fgets($sql_tmpl)) !== FALSE) {
