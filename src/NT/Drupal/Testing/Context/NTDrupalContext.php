@@ -1,14 +1,11 @@
 <?php
-
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
-    
-use Behat\MinkExtension\Context\MinkContext;
+/**
+ * @copyright The Royal National Theatre
+ * @author John-Paul Drawneek <jdrawneek@nationaltheatre.org.uk>
+ */
+namespace NT\Drupal\Testing\Context;
 use Drupal\DrupalExtension\Context\DrupalContext;
+use NT\Drupal\Testing\Fixtures\fixture_helper as fixture_helper;
 
 //
 // Require 3rd-party libraries here:
