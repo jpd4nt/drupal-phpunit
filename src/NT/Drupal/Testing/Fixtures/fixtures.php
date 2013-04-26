@@ -165,7 +165,7 @@ abstract class fixtures {
     $node->uid = 1;
     $node->title = $data['title'];
     $node->nt_display_title['und'][0]['value'] = $data['nt_display_title'];
-    $node->nt_image_image['und'][0] = $data['field_image'];
+    $node->nt_image_image['und'][0] = $data['nt_image_image'];
     $node->nt_image_image['und'][0]['alt'] = $data['image_alt'];
     $node->nt_image_image['und'][0]['title'] = $data['image_title'];
     $node->body['und'][0]['value'] = $data['body'];
