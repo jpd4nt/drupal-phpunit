@@ -9,6 +9,19 @@ abstract class fixtures {
   
   public function __construct() {
     $data = $this->data();
+    $node = $this->parseData($data);
+    $this::$data = $node;
+  }
+  /**
+   * Parse the data into a node.
+   *
+   * @param array $data
+   *   Data to save.
+   *
+   * @return \stdClass
+   *   Node produced.
+   */
+  protected function parseData($data) {
     switch (strtolower($this::$type)) {
       case 'nt_image':
         $node = $this->install_nt_image($data);
@@ -25,8 +38,7 @@ abstract class fixtures {
       default:
         $node = new \stdClass();
     }
-    
-    $this::$data = $node;
+    return $node;
   }
   /**
    * Get the current data for this fixture.
@@ -55,6 +67,33 @@ abstract class fixtures {
       $this::$nid = $this->install_node($this::$data);
     }
     return $this::$nid;
+  }
+  /**
+   * Install node.
+   *
+   * @param \stdClass $node
+   *   Node data to save.
+   *
+   * @return int
+   *   Nid of the newly created node.
+   *
+   * @throws \Exception
+   *   If drupal node_save() is missing.
+   */
+  protected function install_node($node) {
+    if (function_exists('node_save')) {
+      unset($node->nid);
+      unset($node->vid);
+      unset($node->path);
+      $node->path['pathauto'] = 1;
+      //var_dump($node->type);
+      $this->dependanices($node);
+      node_save($node);
+      return $node->nid;
+    }
+    else {
+      throw new \Exception('Missing node_save().');
+    }
   }
   
   protected function dependanices(&$node) {
@@ -91,17 +130,17 @@ abstract class fixtures {
   
   protected function install_image($data) {
     $data += array(
-      'title' =>'image_' . time(),
-      'field_display_title' =>'',
-      'field_image' =>'',
-      'image_title' => '',
-      'image_alt' => '',
-      'body' =>'',
-      'field_credits' =>'',
-      'field_tags' => array(),
-      'field_production' => NULL,
-      'field_archive_code' => NULL,
-      'field_asset_id' => NULL,
+      'title'                => 'image_' . time(),
+      'field_display_title'  => '',
+      'field_image'          => '',
+      'image_title'          => '',
+      'image_alt'            => '',
+      'body'                 => '',
+      'field_credits'        => '',
+      'field_tags'           => array(),
+      'field_production'     => NULL,
+      'field_archive_code'   => NULL,
+      'field_asset_id'       => NULL,
       'field_asset_category' => array(),
     );
     if (isset($data['file_path'])) {
@@ -136,18 +175,18 @@ abstract class fixtures {
   
   protected function install_nt_image($data) {
     $data += array(
-      'title' =>'image_' . time(),
-      'nt_display_title' =>'',
-      'nt_image_image' =>'',
-      'image_title' => '',
-      'image_alt' => '',
-      'body' =>'',
-      'nt_credits' =>'',
-      'nt_tags' => array(),
+      'title'               =>'image_' . time(),
+      'nt_display_title'    =>'',
+      'nt_image_image'      =>'',
+      'image_title'         => '',
+      'image_alt'           => '',
+      'body'                =>'',
+      'nt_credits'          =>'',
+      'nt_tags'             => array(),
       'nt_image_production' => NULL,
-      'nt_archive_code' => NULL,
-      'nt_asset_id' => NULL,
-      'nt_asset_category' => array(),
+      'nt_archive_code'     => NULL,
+      'nt_asset_id'         => NULL,
+      'nt_asset_category'   => array(),
     );
     if (isset($data['file_path'])) {
       $source = new \stdClass();
@@ -172,7 +211,9 @@ abstract class fixtures {
     $node->body['und'][0]['format'] = 'full_html';
     $node->nt_credits['und'][0]['value'] = $data['nt_credits'];
     $node->nt_tags['und'] = $data['nt_tags'];
-    $node->nt_image_production['und'][0]['nid'] = $data['nt_image_production'];
+    if (isset($data['nt_image_production'])) {
+      $node->nt_image_production['und'][0]['target_id'] = $data['nt_image_production'];
+    }
     $node->nt_archive_code['und'][0]['value'] = $data['nt_archive_code'];
     $node->nt_asset_id['und'][0]['value'] = $data['nt_asset_id'];
     $node->nt_asset_category['und'] = $data['nt_asset_category'];
@@ -181,11 +222,11 @@ abstract class fixtures {
   
   protected function install_rich_media($data) {
     $data += array(
-      'title' => 'Rich Media_' . time(),
-      'field_file_upload' => '',
-      'field_file_height' => '',
-      'body' => '',
-      'field_tags' => '',
+      'title'              => 'Rich Media_' . time(),
+      'field_file_upload'  => '',
+      'field_file_height'  => '',
+      'body'               => '',
+      'field_tags'         => '',
       'field_archive_code' => '',
     );
     if (isset($data['file_path'])) {
