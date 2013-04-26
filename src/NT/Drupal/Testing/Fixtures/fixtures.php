@@ -141,6 +141,7 @@ abstract class fixtures {
         $output[] = array('target_id' => $this->install_image($item));
       }
     }
+    var_dump($output);
     return $output;
   }
   
@@ -403,10 +404,6 @@ abstract class fixtures {
       'nt_video_weighting'     => 1,
     );
 
-    if (is_array($data['nt_video_thumb'])) {
-      $data['nt_video_thumb'] = $this->multi_nt_image($data['nt_video_thumb']);
-    }
-
     if (isset($data['file_path'])) {
       $source = new \stdClass();
       $source->uri = $data['file_path'];
@@ -429,13 +426,24 @@ abstract class fixtures {
     $node->nt_display_title['und'][0]['value'] = $data['nt_display_title'];
     $node->nt_video_file_url['und'][0]['value'] = $data['nt_video_file_url'];
     if (isset($data['nt_video_file'])) {
-      $node->nt_video_file['und'][0] = $data['nt_video_file'];
+      $node->nt_video_file['und'][0]['fid']     = $data['nt_video_file']['fid'];
+      $node->nt_video_file['und'][0]['display'] = 1;
     }
     if (isset($data['nt_video_running_time'])) {
       $node->nt_video_running_time['und'][0]['value'] = $data['nt_video_running_time'];
     }
     if (isset($data['nt_video_thumb'])) {
-      $node->nt_video_thumb['und'] = $data['nt_video_thumb'];
+      if (is_array($data['nt_video_thumb']) && !array_key_exists('nid', $data['nt_video_thumb'])) {
+        $data['nt_video_thumb'] = $this->install_nt_image($data['nt_video_thumb'])->nid;
+      }
+      elseif (is_array($data['nt_video_thumb']) && array_key_exists('nid', $data['nt_video_thumb'])) {
+        $data['nt_video_thumb'] = $data['nt_video_thumb']['nid'];
+      }
+      else {
+        $imageNid = fixture_helper::setup($data['nt_video_thumb'], 'nt_image');
+        $data['nt_video_thumb'] = $imageNid;
+      }
+      $node->nt_video_thumb['und'][0]['target_id'] = $data['nt_video_thumb'];
     }
     if (isset($data['nt_video_srt'])) {
       $node->nt_video_srt['und'][0] = $data['nt_video_srt'];

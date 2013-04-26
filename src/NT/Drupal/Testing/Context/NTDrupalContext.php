@@ -232,4 +232,3 @@ class NTDrupalContext extends DrupalContext
       fixture_helper::setup($fixture, $type);
     }
 }
- 
