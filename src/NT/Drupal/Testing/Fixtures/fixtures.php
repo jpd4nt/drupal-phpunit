@@ -35,6 +35,9 @@ abstract class fixtures {
       case 'video':
         $node = $this->install_video($data);
         break;
+      case 'nt_video':
+        $node = $this->install_nt_video($data);
+        break;
       default:
         $node = new \stdClass();
     }
@@ -123,6 +126,19 @@ abstract class fixtures {
       }
       else {
         $output[] = array('nid' => $this->install_image($item));
+      }
+    }
+    return $output;
+  }
+  
+  protected function multi_nt_image($data) {
+    $output = array();
+    foreach ($data as $item) {
+      if (array_key_exists('nid', $item)) {
+        $output[] = array('target_id' => $item['nid']);
+      }
+      else {
+        $output[] = array('target_id' => $this->install_image($item));
       }
     }
     return $output;
@@ -305,27 +321,27 @@ abstract class fixtures {
   
   protected function install_video($data) {
     $data += array(
-      'title' => 'Video_' . time(),
-      'field_display_title' => '',
-      'field_file_url' => '',
-      'field_running_time' => NULL,
-      'body' => '',
-      'field_thumb' => NULL,
-      'field_srt' => NULL,
-      'field_credits' => '',
+      'title'                 => 'Video_' . time(),
+      'field_display_title'   => '',
+      'field_file_url'        => '',
+      'field_running_time'    => NULL,
+      'body'                  => '',
+      'field_thumb'           => NULL,
+      'field_srt'             => NULL,
+      'field_credits'         => '',
       'field_asset_category' => NULL,
-      'field_backstage' => NULL,
-      'field_tags' => array(),
-      'field_archive_code' => NULL,
-      'field_asset_id' => NULL,
-      'field_project_title' => '',
-      'field_weighting' => 1,
+      'field_backstage'      => NULL,
+      'field_tags'           => array(),
+      'field_archive_code'   => NULL,
+      'field_asset_id'       => NULL,
+      'field_project_title'  => '',
+      'field_weighting'      => 1,
     );
     
     if (is_array($data['field_thumb'])) {
       $data['field_thumb'] = $this->multi_image($data['field_thumb']);
     }
-    
+
     $node = new \stdClass();
     $node->type = 'video';
     $node->language = 'und';
@@ -364,6 +380,83 @@ abstract class fixtures {
     $node->field_project_title['und'][0]['value'] = $data['field_project_title'];
     $node->field_weighting['und'][0]['value'] = $data['field_weighting'];
     
+    return $node;
+  }
+  
+  protected function install_nt_video($data) {
+    $data += array(
+      'title'                 => 'Video_' . time(),
+      'nt_display_title'      => '',
+      'nt_video_file_url'     => '',
+      'nt_video_file'         => NULL,
+      'nt_video_running_time' => NULL,
+      'body'                  => '',
+      'nt_video_thumb'        => NULL,
+      'nt_video_srt'          => NULL,
+      'nt_credits'            => '',
+      'nt_asset_category'     => NULL,
+      'nt_video_backstage'    => NULL,
+      'nt_tags'               => array(),
+      'nt_archive_code'       => NULL,
+      'nt_asset_id'            => NULL,
+      'nt_video_project_title' => '',
+      'nt_video_weighting'     => 1,
+    );
+
+    if (is_array($data['nt_video_thumb'])) {
+      $data['nt_video_thumb'] = $this->multi_nt_image($data['nt_video_thumb']);
+    }
+
+    if (isset($data['file_path'])) {
+      $source = new \stdClass();
+      $source->uri = $data['file_path'];
+      $data['nt_video_file'] = (array) file_copy(
+        $source,
+        'public://' . drupal_basename($data['file_path'])
+      );
+    }
+
+    $node = new \stdClass();
+    $node->type = 'video';
+    $node->language = 'und';
+    $node->status = 1;
+    $node->name = 'admin';
+    $node->uid = 1;
+    
+    $node->title = $data['title'];
+    $node->body['und'][0]['value'] = $data['body'];
+    $node->body['und'][0]['format'] = 'full_html';
+    $node->nt_display_title['und'][0]['value'] = $data['nt_display_title'];
+    $node->nt_video_file_url['und'][0]['value'] = $data['nt_video_file_url'];
+    if (isset($data['nt_video_file'])) {
+      $node->nt_video_file['und'][0] = $data['nt_video_file'];
+    }
+    if (isset($data['nt_video_running_time'])) {
+      $node->nt_video_running_time['und'][0]['value'] = $data['nt_video_running_time'];
+    }
+    if (isset($data['nt_video_thumb'])) {
+      $node->nt_video_thumb['und'] = $data['nt_video_thumb'];
+    }
+    if (isset($data['nt_video_srt'])) {
+      $node->nt_video_srt['und'][0] = $data['nt_video_srt'];
+    }
+    $node->nt_credits['und'][0]['value'] = $data['nt_credits'];
+    if (isset($data['nt_asset_category'])) {
+      $node->nt_asset_category['und'][0]['tid'] = $data['nt_asset_category'];
+    }    
+    if (isset($data['nt_video_backstage'])) {
+      foreach ($data['nt_video_backstage'] as $delta => $value) {
+        $node->nt_video_backstage['und'][$delta]['tid'] = $value;
+      }
+    }
+    if (!empty($data['nt_tags'])) {
+      $node->nt_tags['und'] = $data['nt_tags'];
+    }
+    $node->nt_archive_code['und'][0]['value'] = $data['nt_archive_code'];
+    $node->nt_asset_id['und'][0]['value'] = $data['nt_asset_id'];
+    $node->nt_video_project_title['und'][0]['value'] = $data['nt_video_project_title'];
+    $node->nt_video_weighting['und'][0]['value'] = $data['nt_video_weighting'];
+
     return $node;
   }
 }
