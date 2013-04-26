@@ -23,32 +23,44 @@ class fixture_helper {
   public static function setup($fixture, $type = NULL) {
     if (!empty($fixture)) {
       $class = str_replace(' ', '_', strtolower($fixture));
-      if (file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\' . $type . '\\' . $class;
-      }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\Venue\\' . $class;
-      }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\Image\\' . $class;
-      }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\Production\\' . $class;
-      }
-      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php')) {
-        require_once realpath(__DIR__ . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php';
-        $ob_str = 'NT\\Test\\Fixtures\\NT_Twitter\\' . $class;
+      if ($type) {
+        $classPath = 'NT\\Test\\Fixtures\\' . $type . '\\' . $class;
       }
       else {
-        throw new Exception(
-          'Panic!: ' . print_r($fixture, TRUE) . ' - ' . print_r($class , TRUE)
-          . ' hello!'
-        );
+        $classPath = 'NT\\Test\\Fixtures\\' . $class;
       }
+      if (!class_exists($classPath)) {
+        die($classPath . "\n\n");
+      }
+      else {
+        $ob_str = $classPath;
+      }
+//      if (file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php')) {
+//        require_once realpath(__DIR__ . '/../fixtures/Fixtures/') . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $class . '.php';
+//        $ob_str = 'NT\\Test\\Fixtures\\' . $type . '\\' . $class;
+//      }
+//      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+//        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Venue/') . DIRECTORY_SEPARATOR . $class . '.php';
+//        $ob_str = 'NT\\Test\\Fixtures\\Venue\\' . $class;
+//      }
+//      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+//        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Image/') . DIRECTORY_SEPARATOR . $class . '.php';
+//        $ob_str = 'NT\\Test\\Fixtures\\Image\\' . $class;
+//      }
+//      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+//        require_once realpath(__DIR__ . '/../fixtures/Fixtures/Production/') . DIRECTORY_SEPARATOR . $class . '.php';
+//        $ob_str = 'NT\\Test\\Fixtures\\Production\\' . $class;
+//      }
+//      elseif(file_exists(realpath(__DIR__ . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php')) {
+//        require_once realpath(__DIR__ . '/../fixtures/Fixtures/NT_Twitter/') . DIRECTORY_SEPARATOR . $class . '.php';
+//        $ob_str = 'NT\\Test\\Fixtures\\NT_Twitter\\' . $class;
+//      }
+//      else {
+//        throw new Exception(
+//          'Panic!: ' . print_r($fixture, TRUE) . ' - ' . print_r($class , TRUE)
+//          . ' hello!'
+//        );
+//      }
 
       $helper = fixture_helper::getInstance();
       
