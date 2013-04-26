@@ -178,10 +178,10 @@ class NTDrupalContext extends DrupalContext
       // Reset cached schema for new database prefix. This must be done before
       // drupal_flush_all_caches() so rebuilds can make use of the schema of
       // modules enabled on the cURL side.
-      $connection_info = Database::getConnectionInfo('default');
-      Database::removeConnection('default');
+      $connection_info = \Database::getConnectionInfo('default');
+      \Database::removeConnection('default');
       $connection_info['default']['prefix'] = $this->prefix . '_';
-      Database::addConnectionInfo('default', 'default', $connection_info['default']);
+      \Database::addConnectionInfo('default', 'default', $connection_info['default']);
       drupal_get_schema(NULL, TRUE);
       // Reset the list of enabled modules.
       module_list(TRUE);

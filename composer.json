@@ -13,11 +13,13 @@
         "php": 				">=5.3.3",
     	"phpunit/phpunit": 		">=3.7.1@stable",
         "behat/behat": 			">=2.4@stable",
-	"behat/mink": 			">=1.4@stable"
+	"behat/mink": 			">=1.4@stable",
+        "behat/mink-extension": 	"*"
     },
     "autoload": {
         "psr-0": {
 	    "NT\\Drupal\\Testing\\Context": "src",
+            "NT\\Drupal\\Testing\\Fixtures": "src",
             "NT\\Drupal\\Testing\\PHPUnit": "src"
         },
         "classmap": [
