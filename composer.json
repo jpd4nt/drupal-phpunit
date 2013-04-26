@@ -18,12 +18,11 @@
     },
     "autoload": {
         "psr-0": {
-	    "NT\\Drupal\\Testing\\Context": "src",
-            "NT\\Drupal\\Testing\\Fixtures": "src",
-            "NT\\Drupal\\Testing\\PHPUnit": "src"
+	    "NT\\Drupal\\Testing": "src"
         },
         "classmap": [
-            "src/NT/Drupal/Testing/PHPUnit/"
+            "src/NT/Drupal/Testing/PHPUnit/",
+            "src/NT/Drupal/Testing/Fixtures/"
         ]
     }
 } 

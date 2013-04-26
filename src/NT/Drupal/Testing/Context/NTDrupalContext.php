@@ -207,9 +207,12 @@ class NTDrupalContext extends DrupalContext
       $time = time();
       $sql = sprintf("SELECT table_name FROM information_schema.tables WHERE table_name LIKE '%s_%%'", $this->prefix);
       $result = db_query($sql);
+      $tables = array();
       foreach ($result as $row) {
-        db_query(sprintf("DROP TABLE %s", $row->table_name));
+	$tables[] = "`" . $row->table_name . "`";
       }
+      $tablesList = implode(',', $tables);
+      db_query(sprintf("DROP TABLE %s", $tablesList));
       print 'Drop took:' . (time() - $time) . "sec\n\n";
       unlink(UPAL_DB_PATH . DIRECTORY_SEPARATOR . $this->prefix .'.sql');
       fixture_helper::clear();
