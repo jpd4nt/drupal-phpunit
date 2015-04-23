@@ -2352,7 +2352,46 @@ abstract class DrupalTestCase extends \PHPUnit_Framework_TestCase {
   function directory_cache($subdir = '') {
     return getenv('CACHE_PREFIX') . '/' . $subdir;
   }
-
+  
+  /**
+   * Drop all the tables in the database defined.
+   * 
+   * @param string $database
+   *   Label of database to clear all the tables.
+   */
+  protected function drop_tables($database) {
+    $time = time();
+    db_query(
+      sprintf(
+        "SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') FROM information_schema.tables WHERE table_schema = '%s';",
+        $database
+      )
+    );
+    print 'Drop took:' . (time() - $time) . "sec\n\n";
+  }
+  /**
+   * Import database dump to be used.
+   *
+   * @param String $database
+   *   Database name to be used.
+   * @param String $file
+   *   The dump file to import.
+   */
+  protected function import_database($database, $file) {
+    $include_path = realpath(
+      dirname(__FILE__) . '/../../../../../../../../includes/'
+    );
+    $cmd = sprintf(
+      'mysql -u %s --password=%s %s < %s',
+      DB_USER,
+      DB_PWD,
+      $database,
+      $include_path . DIRECTORY_SEPARATOR . $file
+    );
+    $time = time();
+    exec($cmd, $output, $return);
+    print 'Import finished took:' . (time() - $time) . "sec\n\n";
+  }
 //  function db_url($env) {
 //    return substr(UPAL_DB_URL, 0, 6) == 'sqlite'  ?  "sqlite://sites/$env/files/unish.sqlite" : UPAL_DB_URL . '/unish_' . $env;
 //  }

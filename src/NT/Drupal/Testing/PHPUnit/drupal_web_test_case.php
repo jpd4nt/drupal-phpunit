@@ -5,7 +5,7 @@
  */
 namespace NT\Drupal\Testing\PHPUnit;
 
-class DrupalWebTestCase extends DrupalTestCase {
+abstract class DrupalWebTestCase extends DrupalTestCase {
   
   protected $prefix;
 
