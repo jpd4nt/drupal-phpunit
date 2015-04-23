@@ -77,6 +77,11 @@ class upal {
     if (!defined('DRUPAL_ROOT')) {
       define('DRUPAL_ROOT', UPAL_ROOT);
     }
-    require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
+    if (file_exists(DRUPAL_ROOT . '/includes/bootstrap.inc')) {
+      require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
+    } else {
+      print 'Cannot find: ' . DRUPAL_ROOT . '/includes/bootstrap.inc' . "\n\n";
+    }
+    
   }
 }
