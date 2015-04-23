@@ -73,5 +73,10 @@ class upal {
 
     $_SERVER['HTTP_HOST'] = $url['host'];
     $_SERVER['SERVER_PORT'] = array_key_exists('port', $url) ? $url['port'] : NULL;
+    
+    if (!defined('DRUPAL_ROOT')) {
+      define('DRUPAL_ROOT', UPAL_ROOT);
+    }
+    require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
   }
 }

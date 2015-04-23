@@ -2361,12 +2361,15 @@ abstract class DrupalTestCase extends \PHPUnit_Framework_TestCase {
    */
   protected function drop_tables($database) {
     $time = time();
-    db_query(
+    $result = db_query(
       sprintf(
-        "SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') FROM information_schema.tables WHERE table_schema = '%s';",
+        "SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') AS tbl FROM information_schema.tables WHERE table_schema = '%s';",
         $database
       )
     );
+    foreach ($result as $row) {
+      db_query(sprintf($row->tbl));
+    }
     print 'Drop took:' . (time() - $time) . "sec\n\n";
   }
   /**
