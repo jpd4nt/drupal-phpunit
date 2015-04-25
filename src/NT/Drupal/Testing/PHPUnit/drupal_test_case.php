@@ -2359,7 +2359,7 @@ abstract class DrupalTestCase extends \PHPUnit_Framework_TestCase {
    * @param string $database
    *   Label of database to clear all the tables.
    */
-  protected function drop_tables($database) {
+  public static function drop_tables($database) {
     $time = time();
     $result = db_query(
       sprintf(
@@ -2380,7 +2380,7 @@ abstract class DrupalTestCase extends \PHPUnit_Framework_TestCase {
    * @param String $file
    *   The dump file to import.
    */
-  protected function import_database($database, $file) {
+  public static function import_database($database, $file) {
     $include_path = realpath(
       dirname(__FILE__) . '/../../../../../../../../includes/'
     );
