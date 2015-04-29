@@ -46,5 +46,7 @@ abstract class DrupalUnitTestCase extends DrupalTestCase {
       default:
         drupal_static_reset();
     }
+    restore_error_handler();
+    restore_exception_handler();
   }
 }
