@@ -48,5 +48,7 @@ abstract class DrupalUnitTestCase extends DrupalTestCase {
     }
     restore_error_handler();
     restore_exception_handler();
+    spl_autoload_unregister('drupal_autoload_class');
+    spl_autoload_unregister('drupal_autoload_interface');
   }
 }
